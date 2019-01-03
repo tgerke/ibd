@@ -6,8 +6,6 @@ output: html_document
 ---
    
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-setwd("~/Documents/Prostate/project proposals/IBD")
-options(stringsAsFactors = FALSE)
 library(popEpi)  # sir()
 library(tidyverse)
 library(magrittr)
@@ -15,7 +13,7 @@ library(magrittr)
 # CDC United States Cancer Statistics 1999-2015 from 
 # https://www.cdc.gov/cancer/uscs/USCS_1999_2015_ASCII.zip via
 # https://www.cdc.gov/cancer/uscs/dataviz/download_data.htm
-uscs        <- read.csv(file = "USCS_1999_2015_ASCII/BYAGE.TXT", sep = "|")
+uscs        <- read_delim(file = "data/BYAGE.TXT", delim = "|")
 names(uscs) <- tolower(names(uscs))
 uscs %<>% filter(site == "Prostate" & sex == "Male" & year == "2014" &
                    event_type == "Incidence" & race == "All Races" & rate != "~")
