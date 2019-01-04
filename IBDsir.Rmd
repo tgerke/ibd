@@ -1,26 +1,69 @@
 ---
-title: "Summary"
-author: "Travis Gerke"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
-output: html_document
+title: "Response to Burns et al"
+author: "Travis Gerke, Konrad Stopsack"
+date: '`r strftime(Sys.time(), "%A, %b %d, %Y")`'
+mainfont: 'Source Serif Pro'
+monofont: 'Source Code Pro'
+output:
+  rmarkdown::html_vignette:
+    df_print: kable
+    standalone: true
+  pdf_document: 
+    latex_engine: xelatex
+editor_options: 
+  chunk_output_type: console
 ---
-   
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(popEpi)  # sir()
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, cache = FALSE,
+  warning = FALSE, message = FALSE,
+  fig.width = 10, fig.height = 7, 
+  fig.showtext = TRUE # for the fancy fonts, disable if not needed
+)
+```
+
+```{css global-css, echo=FALSE}
+img {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+```
+
+```{r library, include=FALSE}
 library(tidyverse)
-library(magrittr)
+library(popEpi)  # for use of sir()
+
+# Use the grkmisc theme
+theme_set(
+  grkmisc::theme_grk(
+    base_family = "Source Serif Pro",
+    axis_text_family = "Source Code Pro",
+    axis_title_family = "Source Serif Pro",
+    default_geom_font = "Source Sans Pro",
+    use_showtext = TRUE
+  ) + 
+    theme(panel.grid.minor = element_blank())
+)
+```
+   
+```{r load, include=FALSE}
+# Load Data
 
 # CDC United States Cancer Statistics 1999-2015 from 
 # https://www.cdc.gov/cancer/uscs/USCS_1999_2015_ASCII.zip via
 # https://www.cdc.gov/cancer/uscs/dataviz/download_data.htm
-uscs        <- read_delim(file = "data/BYAGE.TXT", delim = "|")
-names(uscs) <- tolower(names(uscs))
-uscs %<>% filter(site == "Prostate" & sex == "Male" & year == "2014" &
-                   event_type == "Incidence" & race == "All Races" & rate != "~")
-   # Use 2014 incidence rates (end of inclusion in Burns et al.)
-uscs %<>% type_convert() %>%
-  mutate(agestart = as.numeric(substr(age, 1, 2)))
+uscs <- read_delim(file = "data/BYAGE.TXT", delim = "|", guess_max = 250000)
 
+# Use 2014 incidence rates (end of inclusion in Burns et al.)
+uscs %>% 
+  rename_all(tolower) %>%
+  filter(site == "Prostate" & sex == "Male" & year == "2014" &
+                   event_type == "Incidence" & race == "All Races" & rate != "~") %>%
+  mutate(agestart = as.numeric(str_sub(age, 1, 2)))
+```
+<!--
 # Input Burns et al., Eur Urol 2018, Table 1 counts
 burns <- data.frame(decade = rep(c(30, 40, 50, 60, 70), 2),                         # Start of age category
                     n      = c(630, 2602, 3304, 1978, 792, 70, 288, 366, 221, 47),  # Person counts 
@@ -43,3 +86,5 @@ sir(coh.data = burns,       # Exposed: dataset
     print    = group,       # Exposed: IBD vs. non-IBD
     adjust   = agestart)    # Strata, must be same variable in exposed and standard
 ```
+
+<!-- Start Document Here -->
