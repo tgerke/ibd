@@ -34,18 +34,19 @@ img {
 ```{r library, include=FALSE}
 library(tidyverse)
 library(popEpi)  # for use of sir()
+library(kableExtra)
 
 # Use the grkmisc theme
-theme_set(
-  grkmisc::theme_grk(
-    base_family = "Source Serif Pro",
-    axis_text_family = "Source Code Pro",
-    axis_title_family = "Source Serif Pro",
-    default_geom_font = "Source Sans Pro",
-    use_showtext = TRUE
-  ) + 
-    theme(panel.grid.minor = element_blank())
-)
+# theme_set(
+#   grkmisc::theme_grk(
+#     base_family = "Source Serif Pro",
+#     axis_text_family = "Source Code Pro",
+#     axis_title_family = "Source Serif Pro",
+#     default_geom_font = "Source Sans Pro",
+#     use_showtext = TRUE
+#   ) + 
+#     theme(panel.grid.minor = element_blank())
+# )
 ```
    
 ```{r load, include=FALSE}
@@ -75,7 +76,29 @@ burnsStd <- burns %>% uncount(2, .id = "duplicate") %>%
   mutate(agestart = if_else(duplicate == 1, decade, decade + 5),
          n_fu     = n * 5 / 2) %>%  # Table 1 gives 5-year cumulative incidence. Put half into each 5-year category
   filter(!(decade == 30 & duplicate == 1))  # Assign "<40" counts to 35-40 age band only (also, no rates for <35 in std. pop)
+```
 
+## Data analysis
+
+Age-specific prostate cancer incidence rates per 100,000 person-years for 2014 from CDC United States Cancer Statistics (https://www.cdc.gov/cancer/uscs/USCS_1999_2015_ASCII.zip via
+https://www.cdc.gov/cancer/uscs/dataviz/download_data.htm)
+
+```{r} 
+uscs %>% 
+  select(-event_type, -agestart, -sex, -year) %>%
+  kable()
+```
+
+Data as presented in Table 1 of Burns et al.
+
+```{r} 
+burns %>% 
+  kable()
+```
+
+## Results 
+
+```{r results}
 # SMRs for IBD and non-IBD groups compared to U.S. population
 results <- sir(coh.data = burnsStd,       # Exposed: dataset
     coh.obs  = cases,       # Exposed: Case count (note--total cases per "group" listed in one random stratum of age)
@@ -85,6 +108,22 @@ results <- sir(coh.data = burnsStd,       # Exposed: dataset
     ref.pyrs = population,  # Standard: Person-time (time presumed to be one year)
     print    = group,       # Exposed: IBD vs. non-IBD
     adjust   = agestart)    # Strata, must be same variable in exposed and standard
+kable(results)
+```
+
+### Construct the results by hand
+
+```{r}
+ref <- uscs %>% 
+  filter(!(age %in% c("80-84", "85+"))) %>%
+  mutate(decade = as.numeric(str_sub(age, 1, 1))*10, 
+         count = as.numeric(count)) %>%
+  group_by(decade) %>% #one assumption is that 35-40 represents the full 30 decade
+  summarise(count = sum(count), 
+            population = sum(population)) %>%
+  mutate(rate = count/population*100000)
+  I()
+
 ```
 
 <!-- Start Document Here -->
