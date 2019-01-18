@@ -5,6 +5,7 @@ date: '`r strftime(Sys.time(), "%A, %b %d, %Y")`'
 mainfont: 'Source Serif Pro'
 monofont: 'Source Code Pro'
 output:
+  github_document: default
   rmarkdown::html_vignette:
     df_print: kable
     standalone: true
