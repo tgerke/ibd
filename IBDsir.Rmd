@@ -93,11 +93,11 @@ uscs %>%
   kable()
 ```
 
-Data as presented in Table 1 of Burns et al.
+Data as presented in Table 1 of Burns et al. (29 cases in non-IBD group, 30 cases in IBD group):
 
 ```{r} 
 burns %>% 
-  select(-followUp) %>%
+  select(-followUp, -cases) %>%
   kable()
 ```
 

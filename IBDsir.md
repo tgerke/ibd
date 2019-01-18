@@ -646,7 +646,8 @@ Prostate
 
 </table>
 
-Data as presented in Table 1 of Burns et al.
+Data as presented in Table 1 of Burns et al. (29 cases in non-IBD group,
+30 cases in IBD group):
 
 <table>
 
@@ -663,12 +664,6 @@ decade
 <th style="text-align:right;">
 
 n
-
-</th>
-
-<th style="text-align:right;">
-
-cases
 
 </th>
 
@@ -698,12 +693,6 @@ group
 
 </td>
 
-<td style="text-align:right;">
-
-29
-
-</td>
-
 <td style="text-align:left;">
 
 Non-IBD
@@ -723,12 +712,6 @@ Non-IBD
 <td style="text-align:right;">
 
 2602
-
-</td>
-
-<td style="text-align:right;">
-
-NA
 
 </td>
 
@@ -754,12 +737,6 @@ Non-IBD
 
 </td>
 
-<td style="text-align:right;">
-
-NA
-
-</td>
-
 <td style="text-align:left;">
 
 Non-IBD
@@ -779,12 +756,6 @@ Non-IBD
 <td style="text-align:right;">
 
 1978
-
-</td>
-
-<td style="text-align:right;">
-
-NA
 
 </td>
 
@@ -810,12 +781,6 @@ Non-IBD
 
 </td>
 
-<td style="text-align:right;">
-
-NA
-
-</td>
-
 <td style="text-align:left;">
 
 Non-IBD
@@ -835,12 +800,6 @@ Non-IBD
 <td style="text-align:right;">
 
 70
-
-</td>
-
-<td style="text-align:right;">
-
-30
 
 </td>
 
@@ -866,12 +825,6 @@ IBD
 
 </td>
 
-<td style="text-align:right;">
-
-NA
-
-</td>
-
 <td style="text-align:left;">
 
 IBD
@@ -891,12 +844,6 @@ IBD
 <td style="text-align:right;">
 
 366
-
-</td>
-
-<td style="text-align:right;">
-
-NA
 
 </td>
 
@@ -922,12 +869,6 @@ IBD
 
 </td>
 
-<td style="text-align:right;">
-
-NA
-
-</td>
-
 <td style="text-align:left;">
 
 IBD
@@ -947,12 +888,6 @@ IBD
 <td style="text-align:right;">
 
 47
-
-</td>
-
-<td style="text-align:right;">
-
-NA
 
 </td>
 
